@@ -1,1 +1,293 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JS Particles + Liquid Glass</title>
+  <style>
+    :root{
+      --bg1:#0f1020; /* deep blue */
+      --bg2:#1a0f2e; /* purple tint */
+      --accent:#7cf7ff; /* cyan */
+      --accent2:#b892ff; /* soft violet */
+      --glass:rgba(255,255,255,.12);
+      --glass-border:rgba(255,255,255,.25);
+    }
+
+    /* Layout */
+    html,body{height:100%;}
+    body{
+      margin:0; font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 15% 10%, #15203b 0%, transparent 60%),
+                  radial-gradient(1000px 600px at 85% 90%, #2a114a 0%, transparent 60%),
+                  linear-gradient(120deg, var(--bg1), var(--bg2));
+      color:#e8eef6;
+      overflow:hidden;
+    }
+
+    /* Particles canvas behind everything */
+    #particles{
+      position:fixed; inset:0; width:100%; height:100%;
+      display:block; z-index:0;
+    }
+
+    /* Subtle vignette */
+    .vignette{position:fixed; inset:-10vmax; pointer-events:none; z-index:1;
+      background:radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,.35) 100%);
+      mix-blend-mode:multiply;
+    }
+
+    /* Centered content with liquid-glass card */
+    .wrap{position:relative; z-index:2; height:100%; display:grid; place-items:center; padding:4vmin;}
+
+    .glass{
+      position:relative;
+      width:min(900px, 92vw);
+      padding:clamp(20px, 4vmin, 48px);
+      border-radius:28px;
+      background: var(--glass);
+      border:1px solid var(--glass-border);
+      box-shadow: 0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.25);
+      backdrop-filter: blur(16px) saturate(160%);
+      -webkit-backdrop-filter: blur(16px) saturate(160%);
+      /* Liquid distortion from SVG filter below */
+      filter:url(#liquid) drop-shadow(0 0 10px rgba(124,247,255,.15));
+      overflow:hidden;
+    }
+
+    /* Gradient shimmer border */
+    .glass::before{
+      content:""; position:absolute; inset:-2px; border-radius:inherit; z-index:-1;
+      background: conic-gradient(from 0deg, var(--accent), var(--accent2), var(--accent), #fff0);
+      filter: blur(12px) opacity(.45);
+      animation: spin 16s linear infinite;
+    }
+
+    /* Soft highlight */
+    .glass::after{
+      content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none;
+      background: linear-gradient(120deg, rgba(255,255,255,.12), transparent 40% 60%, rgba(255,255,255,.08));
+      mix-blend-mode:soft-light;
+    }
+
+    @keyframes spin{to{transform:rotate(360deg);}}
+
+    h1{margin:0 0 .5rem; font-size:clamp(28px, 3.6vmin, 42px); letter-spacing:.4px;}
+    p{margin:.35rem 0 0; line-height:1.55; max-width:70ch;}
+
+    /* Control bar */
+    .controls{display:flex; flex-wrap:wrap; gap:12px; margin-top:18px; align-items:center;}
+    .control{
+      display:flex; align-items:center; gap:10px;
+      background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.2);
+      padding:10px 12px; border-radius:14px;
+    }
+    .control label{font-size:.9rem; opacity:.9;}
+    .control input[type="range"]{accent-color:var(--accent); width:180px;}
+    .badge{font-size:.85rem; padding:.35rem .6rem; border-radius:999px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.2)}
+
+    /* Floating liquid blobs behind the card for depth */
+    .blob{
+      position:absolute; border-radius:50%; filter:url(#goo) blur(10px); opacity:.45;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.7), rgba(255,255,255,.05) 60%);
+      mix-blend-mode:screen;
+      animation: float 14s ease-in-out infinite;
+    }
+    .blob.blob1{width:240px; height:240px; left:-60px; top:-60px; animation-delay:-2s;}
+    .blob.blob2{width:320px; height:320px; right:-80px; bottom:-80px; animation-delay:-6s;}
+    @keyframes float{
+      0%,100%{transform:translate(0,0) scale(1)}
+      50%{transform:translate(12px,-18px) scale(1.06)}
+    }
+
+    /* Respect reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      .glass::before{animation:none}
+      .blob{animation:none}
+    }
+  </style>
+</head>
+<body>
+  <canvas id="particles" aria-hidden="true"></canvas>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <section class="glass">
+      <div class="blob blob1"></div>
+      <div class="blob blob2"></div>
+
+      <h1>Liquid Glass + JS Particles</h1>
+      <p>
+        Двигайте курсор, чтобы «разгонять» частицы. Слева и справа от карточки живут
+        «жидкие» блики и лёгкая анимация стекла — благодаря SVG-фильтрам <code>feTurbulence</code>,
+        <code>feDisplacementMap</code> и «gooey» приёмам.
+      </p>
+
+      <div class="controls">
+        <div class="control"><label for="count">Частиц:</label><input id="count" type="range" min="50" max="500" value="220"/></div>
+        <div class="control"><label for="link">Связи:</label><input id="link" type="range" min="40" max="180" value="110"/></div>
+        <span class="badge" id="fps">— fps</span>
+      </div>
+    </section>
+  </div>
+
+  <!-- SVG filters: liquid distortion for glass + gooey for blobs -->
+  <svg width="0" height="0" style="position:absolute">
+    <filter id="liquid">
+      <feTurbulence type="fractalNoise" baseFrequency="0.008" numOctaves="2" seed="8" result="noise">
+        <animate attributeName="baseFrequency" dur="18s" values="0.006;0.01;0.006" repeatCount="indefinite" />
+      </feTurbulence>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="8" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+    <filter id="goo">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur"/>
+      <feColorMatrix in="blur" mode="matrix"
+        values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 24 -8" result="gooey"/>
+      <feBlend in="SourceGraphic" in2="gooey"/>
+    </filter>
+  </svg>
+
+  <script>
+  (()=>{
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let DPR = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+
+    const state = {
+      count: 220,
+      linkDist: 110,
+      particles: [],
+      mouse: {x: null, y: null, active:false},
+      last: performance.now(), frames:0, fps:0
+    };
+
+    // Controls
+    const countInput = document.getElementById('count');
+    const linkInput  = document.getElementById('link');
+    const fpsBadge   = document.getElementById('fps');
+    countInput.addEventListener('input', ()=>{
+      state.count = +countInput.value; syncCount();
+    });
+    linkInput.addEventListener('input', ()=> state.linkDist = +linkInput.value);
+
+    // Resize handling with DPR scaling
+    function resize(){
+      const {innerWidth:w, innerHeight:h} = window;
+      canvas.width = Math.floor(w * DPR);
+      canvas.height = Math.floor(h * DPR);
+      canvas.style.width = w+'px';
+      canvas.style.height = h+'px';
+      ctx.setTransform(DPR,0,0,DPR,0,0);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    // Particle factory
+    function rand(min,max){return Math.random()*(max-min)+min}
+    function makeParticle(){
+      const speed = rand(.2, .9);
+      return {
+        x: rand(0, canvas.width/DPR),
+        y: rand(0, canvas.height/DPR),
+        vx: (Math.random()-.5)*speed,
+        vy: (Math.random()-.5)*speed,
+        r: rand(1.2, 2.4)
+      };
+    }
+
+    function syncCount(){
+      const diff = state.count - state.particles.length;
+      if(diff>0){ for(let i=0;i<diff;i++) state.particles.push(makeParticle()); }
+      else if(diff<0){ state.particles.splice(diff); }
+    }
+
+    // Init
+    for(let i=0;i<state.count;i++) state.particles.push(makeParticle());
+
+    // Mouse interaction
+    canvas.addEventListener('mousemove', (e)=>{
+      state.mouse.x = e.clientX;
+      state.mouse.y = e.clientY;
+      state.mouse.active = true;
+    });
+    canvas.addEventListener('mouseleave', ()=> state.mouse.active=false);
+
+    function step(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+
+      // Draw & integrate
+      const parts = state.particles;
+      const W = canvas.width/DPR, H = canvas.height/DPR;
+
+      // Precompute link distance squared
+      const link2 = state.linkDist * state.linkDist;
+
+      // Update positions
+      for(let i=0;i<parts.length;i++){
+        const p = parts[i];
+        // Mouse repulsion
+        if(state.mouse.active){
+          const dx = p.x - state.mouse.x;
+          const dy = p.y - state.mouse.y;
+          const d2 = dx*dx + dy*dy;
+          const radius = 120; // influence radius
+          if(d2 < radius*radius){
+            const d = Math.sqrt(d2) || 1;
+            const force = (radius - d) / radius; // 0..1
+            p.vx += (dx/d) * force * 0.6;
+            p.vy += (dy/d) * force * 0.6;
+          }
+        }
+        p.x += p.vx; p.y += p.vy;
+        // friction
+        p.vx *= 0.995; p.vy *= 0.995;
+        // wrap edges
+        if(p.x < -5) p.x = W+5; else if(p.x > W+5) p.x = -5;
+        if(p.y < -5) p.y = H+5; else if(p.y > H+5) p.y = -5;
+      }
+
+      // Draw links (optimized double loop)
+      ctx.lineWidth = 1;
+      for(let i=0;i<parts.length;i++){
+        const p = parts[i];
+        for(let j=i+1;j<parts.length;j++){
+          const q = parts[j];
+          const dx = p.x-q.x, dy = p.y-q.y;
+          const d2 = dx*dx + dy*dy;
+          if(d2 < link2){
+            const alpha = 1 - (d2/link2);
+            ctx.globalAlpha = alpha * .55;
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y);
+            ctx.strokeStyle = '#a6dbff';
+            ctx.stroke();
+          }
+        }
+      }
+      ctx.globalAlpha = 1;
+
+      // Draw particles
+      for(const p of parts){
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+        ctx.fillStyle = '#c2f3ff';
+        ctx.fill();
+      }
+
+      // FPS meter (cheap)
+      const now = performance.now();
+      state.frames++;
+      if(now - state.last >= 500){
+        state.fps = Math.round((state.frames * 1000) / (now - state.last));
+        state.frames = 0; state.last = now;
+        fpsBadge.textContent = state.fps + ' fps';
+      }
+
+      requestAnimationFrame(step);
+    }
+    step();
+  })();
+  </script>
+</body>
+</html>
 
