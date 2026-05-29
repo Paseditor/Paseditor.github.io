@@ -1,222 +1,243 @@
-import { useState, useEffect } from 'react';
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b1020" />
+  <meta name="description" content="Портфолио-визитка Paseditor: разработка, дизайн, проекты и контакты." />
+  <title>Paseditor — Portfolio</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <canvas id="stars" aria-hidden="true"></canvas>
+  <div class="cursor-glow" aria-hidden="true"></div>
+  <div class="noise" aria-hidden="true"></div>
 
-export default function Portfolio() {
-  const [terminalText, setTerminalText] = useState('');
-  const [skillsVisible, setSkillsVisible] = useState(false);
-  
-  const fullText = "> Разрабатываю embedded-решения на Qt/QML\n> Интерфейсы для IoT и промышленных устройств\n> Оптимизация под ARM и x86 платформы";
-  
-  useEffect(() => {
-    let i = 0;
-    const timer = setInterval(() => {
-      if (i <= fullText.length) {
-        setTerminalText(fullText.slice(0, i));
-        i++;
-      } else {
-        clearInterval(timer);
-      }
-    }, 40);
-    return () => clearInterval(timer);
-  }, []);
+  <div class="loader" data-loader>
+    <div class="loader__ring"></div>
+    <p>Запускаю космос...</p>
+  </div>
 
-  useEffect(() => {
-    const timer = setTimeout(() => setSkillsVisible(true), 500);
-    return () => clearTimeout(timer);
-  }, []);
+  <header class="site-header" data-header>
+    <a class="brand" href="#home" aria-label="На главную">
+      <span class="brand__mark">P</span>
+      <span>Paseditor</span>
+    </a>
 
-  const skills = [
-    { name: 'C/C++', level: 85 },
-    { name: 'Qt Framework', level: 80 },
-    { name: 'QML', level: 78 },
-    { name: 'Embedded Linux', level: 75 },
-    { name: 'Buildroot', level: 70 },
-    { name: 'Git/CI', level: 75 },
-  ];
+    <nav class="nav" data-nav>
+      <a href="#home" class="nav__link active">Home</a>
+      <a href="#about" class="nav__link">About</a>
+      <a href="#skills" class="nav__link">Skills</a>
+      <a href="#projects" class="nav__link">Projects</a>
+      <a href="#contact" class="nav__link">Contact</a>
+    </nav>
 
-  const projects = [
-    { title: 'HMI панель управления', desc: 'Qt/QML интерфейс для встраиваемого устройства', tech: ['Qt 6', 'QML', 'C++', 'ARM'] },
-    { title: 'Кастомный Linux образ', desc: 'Сборка минимального образа под целевую платформу', tech: ['Buildroot', 'Linux', 'Bash'] },
-    { title: 'Виджеты и компоненты', desc: 'Библиотека переиспользуемых QML компонентов', tech: ['QML', 'C++', 'Qt Quick'] },
-  ];
+    <button class="theme-toggle" data-theme-toggle aria-label="Переключить тему">
+      <span class="theme-toggle__sun">☀</span>
+      <span class="theme-toggle__moon">☾</span>
+    </button>
 
-  const cards = [
-    { icon: '⚙️', label: 'Embedded', desc: 'ARM, x86' },
-    { icon: '🖥️', label: 'Qt/QML', desc: 'UI/UX для устройств' },
-    { icon: '🐧', label: 'Linux', desc: 'Buildroot' },
-    { icon: '⚡', label: 'Оптимизация', desc: 'Производительность' },
-  ];
+    <button class="menu" data-menu aria-label="Открыть меню">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
 
-  return (
-    <div className="min-h-screen bg-gray-950 text-gray-100 font-sans">
-      <div className="fixed top-0 left-0 right-0 bottom-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500 opacity-10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-violet-500 opacity-10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}} />
+  <main>
+    <section class="hero section" id="home">
+      <div class="hero__content">
+        <div class="profile-card magnetic reveal">
+          <div class="profile-card__badge">👋 Hello, world!</div>
+          <h1>Я <span class="gradient-text">Paseditor</span></h1>
+          <p class="profile-card__typed"><span data-typed></span><span class="caret">|</span></p>
+          <div class="profile-card__actions">
+            <a class="btn btn--primary" href="#projects">Смотреть проекты</a>
+            <a class="btn btn--ghost" href="#contact">Связаться</a>
+          </div>
+          <div class="socials" aria-label="Социальные сети">
+            <a href="https://github.com/Paseditor" target="_blank" rel="noreferrer" aria-label="GitHub">GH</a>
+            <a href="https://t.me/your_username" target="_blank" rel="noreferrer" aria-label="Telegram">TG</a>
+            <a href="mailto:you@example.com" aria-label="Email">@</a>
+          </div>
+        </div>
+
+        <div class="hero__caption reveal delay-1">
+          <span class="eyebrow">Portfolio / GitHub Pages</span>
+          <h2>Красивая визитка с анимациями, звёздами и живыми карточками.</h2>
+          <p>Статический сайт без сборки: просто загрузи файлы в репозиторий и включи GitHub Pages.</p>
+        </div>
       </div>
 
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-gray-950 bg-opacity-80 backdrop-blur-xl border-b border-cyan-500 border-opacity-20">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-          <div className="font-mono font-bold text-lg">Arnee<span className="text-cyan-400">::</span>dev</div>
-          <div className="hidden md:flex gap-8 text-sm font-mono">
-            <a href="#about" className="text-gray-400 hover:text-cyan-400 transition-colors">О себе</a>
-            <a href="#skills" className="text-gray-400 hover:text-cyan-400 transition-colors">Навыки</a>
-            <a href="#projects" className="text-gray-400 hover:text-cyan-400 transition-colors">Проекты</a>
-            <a href="#contact" className="text-gray-400 hover:text-cyan-400 transition-colors">Контакты</a>
-          </div>
-        </div>
-      </nav>
+      <div class="hero-art reveal delay-2" aria-hidden="true">
+        <div class="moon"></div>
+        <div class="orbit orbit--one"><span></span></div>
+        <div class="orbit orbit--two"><span></span></div>
+        <div class="planet planet--a"></div>
+        <div class="planet planet--b"></div>
+        <svg class="coder" viewBox="0 0 520 470" role="img" aria-label="Иллюстрация разработчика под ночным небом">
+          <defs>
+            <linearGradient id="hoodie" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0" stop-color="#4f7cff"/>
+              <stop offset="1" stop-color="#7c4dff"/>
+            </linearGradient>
+            <linearGradient id="skin" x1="0" x2="1">
+              <stop offset="0" stop-color="#ffcaa6"/>
+              <stop offset="1" stop-color="#f39c78"/>
+            </linearGradient>
+          </defs>
+          <path class="line" d="M36 356 H227 C261 356 279 330 293 305 L333 233" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          <path class="line line--slow" d="M86 379 H252" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".35"/>
+          <path class="line line--slow" d="M144 397 H232" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".2"/>
+          <g class="character">
+            <path d="M300 283 L246 352 L268 358 L329 297 Z" fill="#17213a" stroke="#7f91ca" stroke-width="2"/>
+            <path d="M329 296 C352 329 386 344 416 329 C434 320 438 301 426 289 C400 263 364 264 329 296Z" fill="#202a44"/>
+            <path d="M326 143 C361 133 403 151 414 190 L433 257 C439 280 421 300 398 295 L332 282 C302 276 287 250 294 221 L309 163 C311 154 317 147 326 143Z" fill="url(#hoodie)"/>
+            <path d="M359 181 L410 203 L410 248 L345 219 Z" fill="#2f65f5" opacity=".9"/>
+            <path d="M318 216 C291 235 264 246 237 246 C225 246 218 235 224 225 C233 211 257 202 293 181Z" fill="url(#skin)"/>
+            <path d="M225 225 C218 219 214 220 208 228 C201 238 205 252 216 254 C223 255 229 252 237 246Z" fill="url(#skin)"/>
+            <path d="M352 88 C374 91 392 107 395 130 C399 159 376 179 350 174 C326 169 312 149 317 125 C321 103 332 85 352 88Z" fill="url(#skin)"/>
+            <path d="M323 118 C332 104 343 99 365 111 C373 115 380 112 383 105 C373 86 348 78 329 89 C313 97 306 115 312 134 C316 130 320 124 323 118Z" fill="#17243d"/>
+            <path d="M401 288 L426 344 H401 L373 298 Z" fill="#4f7cff"/>
+            <path d="M399 344 H439 C445 344 449 350 446 356 C442 363 431 367 419 365 L392 361 Z" fill="#eaf0ff"/>
+            <path d="M328 297 L327 364 H300 L292 307 Z" fill="#4f7cff"/>
+            <path d="M298 364 H342 C348 364 351 370 348 376 C343 384 329 386 316 383 L291 377 Z" fill="#eaf0ff"/>
+            <path d="M379 194 L396 179 L412 195 L395 211Z" fill="#14213a" opacity=".5"/>
+            <path d="M365 151 C377 158 386 168 391 182" fill="none" stroke="#b9c6ff" stroke-width="4" stroke-linecap="round" opacity=".45"/>
+            <text x="368" y="236" fill="#ffffff" font-size="35" font-weight="900" font-family="Inter, sans-serif">P</text>
+          </g>
+        </svg>
+      </div>
+    </section>
 
-      <section className="relative min-h-screen flex items-center justify-center px-6 pt-20">
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <div className="mb-6 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500 bg-opacity-10 border border-cyan-500 border-opacity-30 text-cyan-400 text-sm font-mono">
-            <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-            Открыт для проектов
-          </div>
-          
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-            <span className="bg-gradient-to-r from-cyan-400 via-violet-400 to-cyan-400 bg-clip-text text-transparent">
-              Embedded Linux
-            </span>
-            <br />
-            <span className="text-gray-100">Developer</span>
-          </h1>
-          
-          <div className="mt-8 mx-auto max-w-2xl bg-gray-900 bg-opacity-80 rounded-xl border border-gray-700 overflow-hidden shadow-2xl">
-            <div className="flex items-center gap-2 px-4 py-3 bg-gray-800 bg-opacity-50 border-b border-gray-700">
-              <div className="w-3 h-3 rounded-full bg-red-500 opacity-80" />
-              <div className="w-3 h-3 rounded-full bg-yellow-500 opacity-80" />
-              <div className="w-3 h-3 rounded-full bg-green-500 opacity-80" />
-              <span className="ml-2 text-xs text-gray-500 font-mono">terminal</span>
-            </div>
-            <div className="p-6 font-mono text-sm text-left min-h-24">
-              <pre className="text-emerald-400 whitespace-pre-wrap">{terminalText}<span className="animate-pulse">▊</span></pre>
-            </div>
-          </div>
+    <section class="section about" id="about">
+      <div class="section-head reveal">
+        <span class="eyebrow">About</span>
+        <h2>Что я делаю</h2>
+      </div>
+      <div class="about-grid">
+        <article class="glass-card reveal magnetic">
+          <div class="glass-card__icon">⚡</div>
+          <h3>Быстрые интерфейсы</h3>
+          <p>Лендинги, портфолио, админки и UI-компоненты с плавными микровзаимодействиями.</p>
+        </article>
+        <article class="glass-card reveal magnetic delay-1">
+          <div class="glass-card__icon">🎨</div>
+          <h3>Красивый дизайн</h3>
+          <p>Тёмная эстетика, аккуратная типографика, неоновые акценты и адаптивная сетка.</p>
+        </article>
+        <article class="glass-card reveal magnetic delay-2">
+          <div class="glass-card__icon">🚀</div>
+          <h3>Запуск на GitHub Pages</h3>
+          <p>Проект работает без серверов и сборщиков — достаточно HTML, CSS и JavaScript.</p>
+        </article>
+      </div>
+    </section>
 
-          <div className="mt-12 flex justify-center gap-4 flex-wrap">
-            <a href="#contact" className="px-8 py-3 bg-gradient-to-r from-cyan-500 to-violet-500 rounded-lg font-semibold hover:opacity-90 transition-opacity">
-              Связаться
-            </a>
-            <a href="#projects" className="px-8 py-3 bg-gray-800 border border-gray-700 rounded-lg font-semibold hover:border-cyan-500 hover:border-opacity-50 transition-colors">
-              Проекты
-            </a>
-          </div>
-        </div>
-      </section>
+    <section class="section skills" id="skills">
+      <div class="section-head reveal">
+        <span class="eyebrow">Expertise Area</span>
+        <h2>Навыки</h2>
+      </div>
+      <div class="skills-grid">
+        <article class="skill-card reveal magnetic" data-percent="92">
+          <div class="skill-card__icon">🌐</div>
+          <strong><span class="counter">0</span>%</strong>
+          <p>Web Development</p>
+          <div class="meter"><span style="--value:92%"></span></div>
+        </article>
+        <article class="skill-card reveal magnetic delay-1" data-percent="78">
+          <div class="skill-card__icon">🧩</div>
+          <strong><span class="counter">0</span>%</strong>
+          <p>UI Animation</p>
+          <div class="meter"><span style="--value:78%"></span></div>
+        </article>
+        <article class="skill-card reveal magnetic delay-2" data-percent="74">
+          <div class="skill-card__icon">📱</div>
+          <strong><span class="counter">0</span>%</strong>
+          <p>Responsive Design</p>
+          <div class="meter"><span style="--value:74%"></span></div>
+        </article>
+        <article class="skill-card reveal magnetic" data-percent="86">
+          <div class="skill-card__icon">✨</div>
+          <strong><span class="counter">0</span>%</strong>
+          <p>Visual Effects</p>
+          <div class="meter"><span style="--value:86%"></span></div>
+        </article>
+        <article class="skill-card reveal magnetic delay-1" data-percent="70">
+          <div class="skill-card__icon">🛠</div>
+          <strong><span class="counter">0</span>%</strong>
+          <p>Frontend Tools</p>
+          <div class="meter"><span style="--value:70%"></span></div>
+        </article>
+        <article class="skill-card reveal magnetic delay-2" data-percent="65">
+          <div class="skill-card__icon">🔍</div>
+          <strong><span class="counter">0</span>%</strong>
+          <p>Testing / SEO</p>
+          <div class="meter"><span style="--value:65%"></span></div>
+        </article>
+      </div>
 
-      <section id="about" className="relative py-24 px-6 z-10">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div>
-              <h2 className="text-3xl font-bold mb-6">
-                <span className="text-cyan-400">#</span> О себе
-              </h2>
-              <p className="text-gray-400 leading-relaxed mb-4">
-                1.5 года создаю embedded-решения на базе Linux. Специализируюсь на разработке 
-                современных HMI интерфейсов с использованием Qt/QML, оптимизации 
-                под ресурсоограниченные платформы.
-              </p>
-              <p className="text-gray-400 leading-relaxed">
-                Работаю с полным циклом: от сборки кастомного Linux-образа через Buildroot 
-                до финальной оптимизации UI под целевое устройство.
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-2 gap-4">
-              {cards.map((item, i) => (
-                <div key={i} className="p-6 bg-gray-900 bg-opacity-50 rounded-xl border border-gray-800 hover:border-cyan-500 hover:border-opacity-30 transition-all hover:-translate-y-1">
-                  <div className="text-2xl mb-3">{item.icon}</div>
-                  <h3 className="font-semibold mb-1">{item.label}</h3>
-                  <p className="text-sm text-gray-500">{item.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
+      <div class="toolbox reveal">
+        <h3>Languages and Tools</h3>
+        <div class="tool-cloud" aria-label="Список технологий">
+          <span>HTML</span><span>CSS</span><span>JS</span><span>TS</span><span>React</span><span>Vue</span><span>Node</span><span>Vite</span><span>Git</span><span>GitHub</span><span>Figma</span><span>Tailwind</span><span>Bootstrap</span><span>Sass</span><span>API</span><span>SEO</span><span>GSAP</span><span>Canvas</span><span>Firebase</span><span>Next</span><span>Laravel</span><span>PHP</span><span>SQL</span><span>Mongo</span>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section id="skills" className="relative py-24 px-6 bg-gray-900 bg-opacity-30 z-10">
-        <div className="max-w-2xl mx-auto">
-          <h2 className="text-3xl font-bold mb-12 text-center">
-            <span className="text-cyan-400">#</span> Технологии
-          </h2>
-          
-          <div className="space-y-6">
-            {skills.map((skill, i) => (
-              <div key={i}>
-                <div className="flex justify-between mb-2">
-                  <span className="font-mono text-sm">{skill.name}</span>
-                  <span className="text-cyan-400 text-sm">{skill.level}%</span>
-                </div>
-                <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
-                  <div 
-                    className="h-full bg-gradient-to-r from-cyan-500 to-violet-500 rounded-full transition-all duration-1000 ease-out"
-                    style={{ width: skillsVisible ? skill.level + '%' : '0%' }}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+    <section class="section projects" id="projects">
+      <div class="section-head reveal">
+        <span class="eyebrow">Projects</span>
+        <h2>Избранные работы</h2>
+      </div>
+      <div class="projects-grid">
+        <a class="project-card reveal magnetic" href="#" target="_blank" rel="noreferrer">
+          <span class="project-card__tag">Portfolio</span>
+          <h3>Personal Universe</h3>
+          <p>Анимированная персональная визитка с космической атмосферой.</p>
+          <span class="project-card__arrow">↗</span>
+        </a>
+        <a class="project-card reveal magnetic delay-1" href="#" target="_blank" rel="noreferrer">
+          <span class="project-card__tag">Landing</span>
+          <h3>Neon Product Page</h3>
+          <p>Лендинг продукта с эффектом стекла, подсветкой и scroll-reveal.</p>
+          <span class="project-card__arrow">↗</span>
+        </a>
+        <a class="project-card reveal magnetic delay-2" href="#" target="_blank" rel="noreferrer">
+          <span class="project-card__tag">Dashboard</span>
+          <h3>Control Panel</h3>
+          <p>UI-панель с карточками, графиками и адаптивной навигацией.</p>
+          <span class="project-card__arrow">↗</span>
+        </a>
+      </div>
+    </section>
 
-      <section id="projects" className="relative py-24 px-6 z-10">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold mb-12 text-center">
-            <span className="text-cyan-400">#</span> Проекты
-          </h2>
-          
-          <div className="grid md:grid-cols-3 gap-6">
-            {projects.map((project, i) => (
-              <div key={i} className="p-6 bg-gray-900 bg-opacity-50 rounded-xl border border-gray-800 hover:border-cyan-500 hover:border-opacity-50 transition-all hover:-translate-y-1">
-                <div className="w-12 h-12 mb-4 rounded-lg bg-gradient-to-br from-cyan-500 to-violet-500 opacity-20 flex items-center justify-center text-xl">
-                  💻
-                </div>
-                <h3 className="font-semibold mb-2 hover:text-cyan-400 transition-colors">{project.title}</h3>
-                <p className="text-sm text-gray-500 mb-4">{project.desc}</p>
-                <div className="flex flex-wrap gap-2">
-                  {project.tech.map((t, j) => (
-                    <span key={j} className="px-2 py-1 text-xs font-mono bg-gray-800 rounded text-gray-400">{t}</span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
+    <section class="section contact" id="contact">
+      <div class="contact-card reveal magnetic">
+        <span class="eyebrow">Contact</span>
+        <h2>Есть идея? Давай сделаем красиво.</h2>
+        <p>Замени контакты на свои в <code>index.html</code>, добавь реальные проекты — и сайт готов к публикации.</p>
+        <div class="contact-card__actions">
+          <a class="btn btn--primary" href="mailto:you@example.com">Написать на email</a>
+          <a class="btn btn--ghost" href="https://github.com/Paseditor" target="_blank" rel="noreferrer">GitHub</a>
         </div>
-      </section>
+      </div>
+    </section>
+  </main>
 
-      <section id="contact" className="relative py-24 px-6 bg-gray-900 bg-opacity-30 z-10">
-        <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-6">
-            <span className="text-cyan-400">#</span> Контакты
-          </h2>
-          <p className="text-gray-400 mb-12">
-            Готов обсудить ваш проект. Напишите мне!
-          </p>
-          
-          <div className="flex justify-center gap-6 mb-8">
-            <a href="mailto:arneefreelance@gmail.com" className="p-4 bg-gray-800 rounded-xl border border-gray-700 hover:border-cyan-500 hover:border-opacity-50 transition-all text-gray-400 hover:text-cyan-400 text-xl">
-              ✉️
-            </a>
-            <a href="https://github.com/Paseditor" target="_blank" className="p-4 bg-gray-800 rounded-xl border border-gray-700 hover:border-cyan-500 hover:border-opacity-50 transition-all text-gray-400 hover:text-cyan-400 text-xl">
-              🐙
-            </a>
-            <a href="#" className="p-4 bg-gray-800 rounded-xl border border-gray-700 hover:border-cyan-500 hover:border-opacity-50 transition-all text-gray-400 hover:text-cyan-400 text-xl">
-              📱
-            </a>
-          </div>
-          
-          <div className="p-6 bg-gray-900 bg-opacity-50 rounded-xl border border-gray-800 inline-block">
-            <p className="font-mono text-cyan-400">arneefreelance@gmail.com</p>
-          </div>
-        </div>
-      </section>
-
-      <footer className="relative py-8 px-6 border-t border-gray-800 z-10">
-        <div className="max-w-6xl mx-auto flex justify-between items-center text-sm text-gray-500">
-          <span className="font-mono">© 2025 Arnee</span>
-          <span>Создано с C++</span>
-        </div>
-      </footer>
+  <footer class="footer">
+    <div><span class="brand__mark brand__mark--small">P</span> Paseditor</div>
+    <div class="clock" data-clock>--:--</div>
+    <div class="footer__links">
+      <a href="https://github.com/Paseditor" target="_blank" rel="noreferrer">GitHub</a>
+      <a href="mailto:you@example.com">Email</a>
     </div>
-  );
-}
+  </footer>
+
+  <button class="to-top" data-to-top aria-label="Наверх">↑</button>
+  <script src="script.js"></script>
+</body>
+</html>
