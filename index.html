@@ -1,243 +1,335 @@
 <!doctype html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#0b1020" />
-  <meta name="description" content="Портфолио-визитка Paseditor: разработка, дизайн, проекты и контакты." />
-  <title>Paseditor — Portfolio</title>
+  <meta name="description" content="Arnee — Backend Developer, Embedded Linux Developer, Go, React, PostgreSQL, Redis, MongoDB, C++17, Qt." />
+  <title>Arnee — Backend & Embedded Linux Developer</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <canvas id="stars" aria-hidden="true"></canvas>
-  <div class="cursor-glow" aria-hidden="true"></div>
-  <div class="noise" aria-hidden="true"></div>
 
-  <div class="loader" data-loader>
-    <div class="loader__ring"></div>
-    <p>Запускаю космос...</p>
-  </div>
+  <div class="page-glow page-glow--left" aria-hidden="true"></div>
+  <div class="page-glow page-glow--right" aria-hidden="true"></div>
 
-  <header class="site-header" data-header>
-    <a class="brand" href="#home" aria-label="На главную">
-      <span class="brand__mark">P</span>
-      <span>Paseditor</span>
+  <svg class="sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="icon-mail" viewBox="0 0 24 24">
+      <path d="M4.6 6.7h14.8c.9 0 1.6.7 1.6 1.6v9.4c0 .9-.7 1.6-1.6 1.6H4.6c-.9 0-1.6-.7-1.6-1.6V8.3c0-.9.7-1.6 1.6-1.6Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+      <path d="m4 8 8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="icon-github" viewBox="0 0 24 24">
+      <path d="M12 2.8a9.2 9.2 0 0 0-2.9 17.9c.46.08.63-.2.63-.44v-1.55c-2.55.55-3.1-1.08-3.1-1.08-.42-1.06-1.02-1.34-1.02-1.34-.84-.57.06-.56.06-.56.92.07 1.4.95 1.4.95.82 1.4 2.15 1 2.68.77.08-.6.32-1 .58-1.23-2.04-.23-4.18-1.02-4.18-4.54 0-1 .36-1.82.95-2.46-.1-.23-.42-1.17.09-2.43 0 0 .78-.25 2.54.94A8.8 8.8 0 0 1 12 7.4c.78 0 1.56.1 2.3.31 1.75-1.18 2.53-.94 2.53-.94.51 1.26.19 2.2.09 2.43.59.64.95 1.46.95 2.46 0 3.53-2.15 4.3-4.2 4.53.33.28.62.84.62 1.7v2.37c0 .24.17.52.64.43A9.2 9.2 0 0 0 12 2.8Z" fill="currentColor"/>
+    </symbol>
+    <symbol id="icon-server" viewBox="0 0 24 24">
+      <rect x="3.3" y="4" width="17.4" height="5.4" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.7"/>
+      <rect x="3.3" y="14.6" width="17.4" height="5.4" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.7"/>
+      <path d="M7 6.7h.03M7 17.3h.03M10 6.7h7M10 17.3h7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="icon-linux" viewBox="0 0 24 24">
+      <path d="M12 3.3c2 0 3.2 1.8 3.2 4.3 0 1.3.42 2.1 1.08 3.05.77 1.1 1.65 2.36 1.65 4.78 0 3.43-2.55 5.27-5.93 5.27s-5.93-1.84-5.93-5.27c0-2.42.88-3.68 1.65-4.78.66-.95 1.08-1.75 1.08-3.05 0-2.5 1.2-4.3 3.2-4.3Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M9.8 18.8 7 20.1M14.2 18.8l2.8 1.3M9.7 8.2h.05M14.25 8.2h.05" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M10.3 11.1c.9.55 2.5.55 3.4 0" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="icon-code" viewBox="0 0 24 24">
+      <path d="m8.3 7-5 5 5 5M15.7 7l5 5-5 5M13.2 5.2l-2.4 13.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="icon-database" viewBox="0 0 24 24">
+      <ellipse cx="12" cy="5.8" rx="7.5" ry="3" fill="none" stroke="currentColor" stroke-width="1.7"/>
+      <path d="M4.5 5.8v12.4c0 1.65 3.36 3 7.5 3s7.5-1.35 7.5-3V5.8" fill="none" stroke="currentColor" stroke-width="1.7"/>
+      <path d="M4.5 12c0 1.65 3.36 3 7.5 3s7.5-1.35 7.5-3" fill="none" stroke="currentColor" stroke-width="1.7"/>
+    </symbol>
+    <symbol id="icon-window" viewBox="0 0 24 24">
+      <rect x="3.6" y="4.2" width="16.8" height="15.6" rx="1.7" fill="none" stroke="currentColor" stroke-width="1.7"/>
+      <path d="M3.6 8.6h16.8M9 8.7v11" fill="none" stroke="currentColor" stroke-width="1.7"/>
+    </symbol>
+    <symbol id="icon-speed" viewBox="0 0 24 24">
+      <path d="M4.6 17.6a8.3 8.3 0 1 1 14.8 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+      <path d="m12 15.2 4.2-4.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+      <path d="M7.1 15.7h.02M8.3 10.6h.02M12 8.6h.02M15.8 10.6h.02M16.9 15.7h.02" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="icon-arrow" viewBox="0 0 24 24">
+      <path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="tool-go" viewBox="0 0 48 48">
+      <path d="M9 20h12M5 24h15M11 28h11" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+      <path d="M29 33c-5 0-8-3.2-8-8s3.5-8 8.3-8c3.3 0 5.8 1.5 7.1 4l-3.4 1.8c-.7-1.3-1.9-2.1-3.7-2.1-2.6 0-4.2 1.8-4.2 4.3s1.7 4.3 4.4 4.3c2.2 0 3.5-1.1 3.9-2.7h-4.8v-3.2h8.9V25c0 4.6-3.3 8-8.5 8Z" fill="currentColor"/>
+      <circle cx="40" cy="25" r="4.1" fill="none" stroke="currentColor" stroke-width="3"/>
+    </symbol>
+    <symbol id="tool-react" viewBox="0 0 48 48">
+      <circle cx="24" cy="24" r="3.2" fill="currentColor"/>
+      <ellipse cx="24" cy="24" rx="18" ry="7" fill="none" stroke="currentColor" stroke-width="2.4"/>
+      <ellipse cx="24" cy="24" rx="18" ry="7" transform="rotate(60 24 24)" fill="none" stroke="currentColor" stroke-width="2.4"/>
+      <ellipse cx="24" cy="24" rx="18" ry="7" transform="rotate(120 24 24)" fill="none" stroke="currentColor" stroke-width="2.4"/>
+    </symbol>
+    <symbol id="tool-vue" viewBox="0 0 48 48">
+      <path d="M5 10h10l9 15 9-15h10L24 41 5 10Z" fill="currentColor" opacity=".95"/>
+      <path d="M14.5 10h7.1l2.4 4 2.4-4h7.1L24 27 14.5 10Z" fill="var(--bg)"/>
+    </symbol>
+    <symbol id="tool-postgres" viewBox="0 0 48 48">
+      <path d="M14 33c-4-2.4-6.5-6.5-6-11.5C8.6 13.8 15.2 8 23.8 8c8.8 0 15 5.8 15.8 13.1.5 4.8-1.5 8.8-5.3 11.4" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/>
+      <path d="M20 39c-.7-7.5.2-14.5 3.4-19.6M28 39c.8-7.7-.1-14.6-3.4-19.6" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/>
+      <path d="M17.5 20.5c1.7 1.4 3.9 2.2 6.5 2.2s4.8-.8 6.5-2.2M18.3 28.6c3.2 1.7 8.2 1.7 11.4 0" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="tool-redis" viewBox="0 0 48 48">
+      <path d="M9 15 24 8l15 7-15 7-15-7Z" fill="currentColor" opacity=".95"/>
+      <path d="M9 24 24 17l15 7-15 7-15-7Z" fill="currentColor" opacity=".74"/>
+      <path d="M9 33 24 26l15 7-15 7-15-7Z" fill="currentColor" opacity=".52"/>
+    </symbol>
+    <symbol id="tool-mongo" viewBox="0 0 48 48">
+      <path d="M24 5c7.2 7.4 9.2 14.1 6.4 21.2-1.8 4.5-4.2 7.9-6.4 13.8-2.2-5.9-4.6-9.3-6.4-13.8C14.8 19.1 16.8 12.4 24 5Z" fill="currentColor" opacity=".8"/>
+      <path d="M24 12v29" stroke="var(--cream)" stroke-width="1.5" stroke-linecap="round" opacity=".55"/>
+    </symbol>
+    <symbol id="tool-cpp" viewBox="0 0 48 48">
+      <path d="M24 5 40 14v20L24 43 8 34V14L24 5Z" fill="none" stroke="currentColor" stroke-width="2.5"/>
+      <path d="M24.8 30.2a7.2 7.2 0 1 1 .1-12.4" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+      <path d="M31 18v8M27 22h8M39 18v8M35 22h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="tool-qt" viewBox="0 0 48 48">
+      <path d="M10 8h28v32H10z" fill="currentColor" opacity=".95"/>
+      <path d="M16.5 30.5c-2.4-2.5-2.4-9.5 0-12 2.2-2.3 6.2-2.3 8.4 0 2.4 2.5 2.4 9.5 0 12-2.2 2.3-6.2 2.3-8.4 0Zm7.1-2.6c1.1-1.6 1.1-5.2 0-6.8-1.2-1.7-4.6-1.7-5.8 0-1.1 1.6-1.1 5.2 0 6.8 1.2 1.7 4.6 1.7 5.8 0Z" fill="var(--bg)"/>
+      <path d="M29.2 18h3.2v4.5h3.1v2.8h-3.1v5.9c0 1.1.5 1.6 1.6 1.6h1.5v3h-2.4c-2.7 0-3.9-1.3-3.9-4.2v-6.3h-2.1v-2.8h2.1V18Z" fill="var(--bg)"/>
+    </symbol>
+    <symbol id="tool-git" viewBox="0 0 48 48">
+      <path d="m24 5 19 19-19 19L5 24 24 5Z" fill="currentColor" opacity=".95"/>
+      <path d="M18 16.5v13.3c0 2 1.6 3.7 3.7 3.7h2.1M18 21h9.5c2.1 0 3.8 1.7 3.8 3.8V31" fill="none" stroke="var(--bg)" stroke-width="2.7" stroke-linecap="round"/>
+      <circle cx="18" cy="16.5" r="3" fill="var(--bg)"/><circle cx="18" cy="31.5" r="3" fill="var(--bg)"/><circle cx="31" cy="31" r="3" fill="var(--bg)"/>
+    </symbol>
+    <symbol id="tool-docker" viewBox="0 0 48 48">
+      <path d="M13 23h4v4h-4zM18 23h4v4h-4zM23 23h4v4h-4zM28 23h4v4h-4zM18 18h4v4h-4zM23 18h4v4h-4zM23 13h4v4h-4z" fill="currentColor"/>
+      <path d="M7 28h29.5c2.2 0 4-1.2 5.5-3.6 1.3 3.9-.2 10.6-6.5 13.8-3.1 1.6-7.2 1.9-12.5 1.9C14 40.1 9 36 7 28Z" fill="currentColor" opacity=".82"/>
+      <path d="M38 23c1.7-.7 3.8-.4 5 1.2" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/>
+    </symbol>
+  </svg>
+
+  <header class="site-header" id="home">
+    <a class="brand" href="#home" aria-label="Arnee home">
+      <span class="brand__letter">A</span>
+      <span class="brand__spark">✦</span>
     </a>
-
-    <nav class="nav" data-nav>
-      <a href="#home" class="nav__link active">Home</a>
-      <a href="#about" class="nav__link">About</a>
-      <a href="#skills" class="nav__link">Skills</a>
-      <a href="#projects" class="nav__link">Projects</a>
-      <a href="#contact" class="nav__link">Contact</a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="#home" class="nav-link active">Home</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#skills" class="nav-link">Skills</a>
+      <a href="#projects" class="nav-link">Projects</a>
+      <a href="#contact" class="nav-link">Contact</a>
     </nav>
-
-    <button class="theme-toggle" data-theme-toggle aria-label="Переключить тему">
-      <span class="theme-toggle__sun">☀</span>
-      <span class="theme-toggle__moon">☾</span>
-    </button>
-
-    <button class="menu" data-menu aria-label="Открыть меню">
-      <span></span><span></span><span></span>
+    <button class="theme-button" id="themeToggle" aria-label="Toggle accent mode">
+      <span class="sun-core"></span>
     </button>
   </header>
 
   <main>
-    <section class="hero section" id="home">
+    <section class="hero section" aria-label="Intro">
       <div class="hero__content">
-        <div class="profile-card magnetic reveal">
-          <div class="profile-card__badge">👋 Hello, world!</div>
-          <h1>Я <span class="gradient-text">Paseditor</span></h1>
-          <p class="profile-card__typed"><span data-typed></span><span class="caret">|</span></p>
-          <div class="profile-card__actions">
-            <a class="btn btn--primary" href="#projects">Смотреть проекты</a>
-            <a class="btn btn--ghost" href="#contact">Связаться</a>
+        <article class="hero-card reveal tilt-card" id="about">
+          <span class="eyebrow">Hello, I’m</span>
+          <h1 class="hero-title">Arnee</h1>
+          <p class="role">Backend Developer <span>•</span> Embedded Linux Developer</p>
+          <p class="stack-line">Go, React, PostgreSQL, Redis, MongoDB</p>
+          <p class="stack-line">C++17, Qt 5.15.2, Embedded Linux</p>
+          <p class="stack-line">Frontend: Vue, React</p>
+          <p class="hero-copy">I design reliable services, fast APIs, database-heavy systems and embedded Linux interfaces that stay stable under real workloads.</p>
+          <div class="divider" aria-hidden="true"><span></span></div>
+          <div class="hero-actions">
+            <a class="contact-chip" href="mailto:arneefreelance@gmail.com">
+              <svg><use href="#icon-mail"></use></svg>
+              arneefreelance@gmail.com
+            </a>
+            <a class="contact-chip contact-chip--ghost" href="https://github.com/Paseditor" target="_blank" rel="noreferrer">
+              <svg><use href="#icon-github"></use></svg>
+              github.com/Paseditor
+            </a>
           </div>
-          <div class="socials" aria-label="Социальные сети">
-            <a href="https://github.com/Paseditor" target="_blank" rel="noreferrer" aria-label="GitHub">GH</a>
-            <a href="https://t.me/your_username" target="_blank" rel="noreferrer" aria-label="Telegram">TG</a>
-            <a href="mailto:you@example.com" aria-label="Email">@</a>
+        </article>
+
+        <div class="hero-visual reveal" aria-label="Cosmic developer illustration">
+          <div class="orbit-wrap">
+            <svg class="hero-svg" viewBox="0 0 720 620" role="img" aria-label="Illustration of Arnee under a starry sky">
+              <defs>
+                <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#DFD0B8" stop-opacity=".85"/>
+                  <stop offset="65%" stop-color="#DFD0B8" stop-opacity=".16"/>
+                  <stop offset="100%" stop-color="#DFD0B8" stop-opacity="0"/>
+                </radialGradient>
+                <linearGradient id="hoodie" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#393E46"/>
+                  <stop offset="1" stop-color="#222831"/>
+                </linearGradient>
+                <linearGradient id="rock" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#393E46"/>
+                  <stop offset="1" stop-color="#171c22"/>
+                </linearGradient>
+              </defs>
+
+              <g class="orbits" fill="none" stroke="#948979" stroke-opacity=".45">
+                <ellipse cx="370" cy="250" rx="300" ry="180" stroke-width="1.1" stroke-dasharray="4 8"/>
+                <ellipse cx="412" cy="260" rx="230" ry="285" transform="rotate(63 412 260)" stroke-width="1"/>
+                <ellipse cx="420" cy="260" rx="170" ry="305" transform="rotate(79 420 260)" stroke-width="1" stroke-dasharray="10 7"/>
+                <circle cx="645" cy="170" r="7" fill="#948979" stroke="none" opacity=".9"/>
+                <circle cx="585" cy="235" r="8" fill="#DFD0B8" stroke="none" opacity=".8"/>
+                <circle cx="488" cy="95" r="4" fill="#DFD0B8" stroke="none" opacity=".65"/>
+              </g>
+
+              <g class="sky-bits">
+                <circle cx="136" cy="126" r="2.5" fill="#DFD0B8"/>
+                <circle cx="201" cy="202" r="1.8" fill="#DFD0B8" opacity=".75"/>
+                <circle cx="444" cy="168" r="1.7" fill="#DFD0B8"/>
+                <circle cx="511" cy="308" r="2.3" fill="#DFD0B8" opacity=".8"/>
+                <circle cx="608" cy="90" r="1.8" fill="#948979"/>
+                <path d="M280 145h14M287 138v14" stroke="#DFD0B8" stroke-width="2" stroke-linecap="round"/>
+                <path d="M215 80h8M219 76v8" stroke="#DFD0B8" stroke-width="1.4" stroke-linecap="round" opacity=".75"/>
+                <circle cx="285" cy="115" r="26" fill="url(#moonGlow)"/>
+                <path class="moon" d="M297 98a35 35 0 1 0 12 56 31 31 0 1 1-12-56Z" fill="#DFD0B8"/>
+              </g>
+
+              <g class="person-float">
+                <path d="M213 548 322 424l152 14 102 89-170 45-193-24Z" fill="url(#rock)" opacity=".95"/>
+                <path d="M322 424 291 510l115 62M474 438l-42 92M213 548l133-38" fill="none" stroke="#948979" stroke-opacity=".45" stroke-width="2"/>
+                <path d="M565 443c8-25 22-42 43-52M579 443c-11-21-12-42-2-63M592 431c15-9 31-11 47-5" fill="none" stroke="#948979" stroke-width="4" stroke-linecap="round" opacity=".45"/>
+                <path d="M460 385c45 10 72 36 89 70l-65 33-78-19-26-71c18-11 44-18 80-13Z" fill="#20262f"/>
+                <path d="M363 329c29-36 88-48 132-18 38 26 59 76 54 143-33 23-81 26-142 9-40-36-59-80-44-134Z" fill="url(#hoodie)"/>
+                <path d="M432 289c17-23 55-19 75 2 18 19 16 48-4 65-19 16-53 15-74-3-22-18-15-39 3-64Z" fill="#D5A07F"/>
+                <path d="M420 300c4-34 38-60 77-41 12 6 25 19 27 35-32 0-39-22-69-14-10 3-20 10-35 20Z" fill="#202831"/>
+                <path d="M490 344c29 13 50 31 66 54" stroke="#948979" stroke-width="4" stroke-linecap="round" opacity=".6"/>
+                <path d="M384 337c-35 18-58 43-71 75" stroke="#D5A07F" stroke-width="18" stroke-linecap="round"/>
+                <path d="M314 412c-19 16-37 23-53 20" stroke="#D5A07F" stroke-width="20" stroke-linecap="round"/>
+                <path d="M443 421c-11 51-35 95-72 133" stroke="#393E46" stroke-width="28" stroke-linecap="round"/>
+                <path d="M385 555c-26 6-47 4-62-6 9-15 24-21 47-17l20 5c6 3 4 15-5 18Z" fill="#DFD0B8"/>
+                <path d="M505 444c4 50 21 93 51 128" stroke="#4a505a" stroke-width="30" stroke-linecap="round"/>
+                <path d="M556 576c28 2 49-5 63-19-12-13-30-16-52-7l-19 9c-5 4-.6 16 8 17Z" fill="#DFD0B8"/>
+                <path d="M495 393c23 10 43 27 60 48" stroke="#20262f" stroke-width="18" stroke-linecap="round"/>
+                <path d="M410 356c22 17 43 27 63 29" stroke="#948979" stroke-width="3" stroke-linecap="round" opacity=".5"/>
+                <text x="458" y="420" font-family="Georgia, serif" font-size="76" fill="#DFD0B8" font-weight="700">A</text>
+              </g>
+            </svg>
           </div>
         </div>
-
-        <div class="hero__caption reveal delay-1">
-          <span class="eyebrow">Portfolio / GitHub Pages</span>
-          <h2>Красивая визитка с анимациями, звёздами и живыми карточками.</h2>
-          <p>Статический сайт без сборки: просто загрузи файлы в репозиторий и включи GitHub Pages.</p>
-        </div>
-      </div>
-
-      <div class="hero-art reveal delay-2" aria-hidden="true">
-        <div class="moon"></div>
-        <div class="orbit orbit--one"><span></span></div>
-        <div class="orbit orbit--two"><span></span></div>
-        <div class="planet planet--a"></div>
-        <div class="planet planet--b"></div>
-        <svg class="coder" viewBox="0 0 520 470" role="img" aria-label="Иллюстрация разработчика под ночным небом">
-          <defs>
-            <linearGradient id="hoodie" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0" stop-color="#4f7cff"/>
-              <stop offset="1" stop-color="#7c4dff"/>
-            </linearGradient>
-            <linearGradient id="skin" x1="0" x2="1">
-              <stop offset="0" stop-color="#ffcaa6"/>
-              <stop offset="1" stop-color="#f39c78"/>
-            </linearGradient>
-          </defs>
-          <path class="line" d="M36 356 H227 C261 356 279 330 293 305 L333 233" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-          <path class="line line--slow" d="M86 379 H252" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".35"/>
-          <path class="line line--slow" d="M144 397 H232" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".2"/>
-          <g class="character">
-            <path d="M300 283 L246 352 L268 358 L329 297 Z" fill="#17213a" stroke="#7f91ca" stroke-width="2"/>
-            <path d="M329 296 C352 329 386 344 416 329 C434 320 438 301 426 289 C400 263 364 264 329 296Z" fill="#202a44"/>
-            <path d="M326 143 C361 133 403 151 414 190 L433 257 C439 280 421 300 398 295 L332 282 C302 276 287 250 294 221 L309 163 C311 154 317 147 326 143Z" fill="url(#hoodie)"/>
-            <path d="M359 181 L410 203 L410 248 L345 219 Z" fill="#2f65f5" opacity=".9"/>
-            <path d="M318 216 C291 235 264 246 237 246 C225 246 218 235 224 225 C233 211 257 202 293 181Z" fill="url(#skin)"/>
-            <path d="M225 225 C218 219 214 220 208 228 C201 238 205 252 216 254 C223 255 229 252 237 246Z" fill="url(#skin)"/>
-            <path d="M352 88 C374 91 392 107 395 130 C399 159 376 179 350 174 C326 169 312 149 317 125 C321 103 332 85 352 88Z" fill="url(#skin)"/>
-            <path d="M323 118 C332 104 343 99 365 111 C373 115 380 112 383 105 C373 86 348 78 329 89 C313 97 306 115 312 134 C316 130 320 124 323 118Z" fill="#17243d"/>
-            <path d="M401 288 L426 344 H401 L373 298 Z" fill="#4f7cff"/>
-            <path d="M399 344 H439 C445 344 449 350 446 356 C442 363 431 367 419 365 L392 361 Z" fill="#eaf0ff"/>
-            <path d="M328 297 L327 364 H300 L292 307 Z" fill="#4f7cff"/>
-            <path d="M298 364 H342 C348 364 351 370 348 376 C343 384 329 386 316 383 L291 377 Z" fill="#eaf0ff"/>
-            <path d="M379 194 L396 179 L412 195 L395 211Z" fill="#14213a" opacity=".5"/>
-            <path d="M365 151 C377 158 386 168 391 182" fill="none" stroke="#b9c6ff" stroke-width="4" stroke-linecap="round" opacity=".45"/>
-            <text x="368" y="236" fill="#ffffff" font-size="35" font-weight="900" font-family="Inter, sans-serif">P</text>
-          </g>
-        </svg>
       </div>
     </section>
 
-    <section class="section about" id="about">
-      <div class="section-head reveal">
-        <span class="eyebrow">About</span>
-        <h2>Что я делаю</h2>
+    <section class="section expertise" id="skills" aria-labelledby="skills-title">
+      <div class="section-heading reveal">
+        <span class="heading-star" aria-hidden="true"></span>
+        <h2 id="skills-title">My Expertise</h2>
       </div>
-      <div class="about-grid">
-        <article class="glass-card reveal magnetic">
-          <div class="glass-card__icon">⚡</div>
-          <h3>Быстрые интерфейсы</h3>
-          <p>Лендинги, портфолио, админки и UI-компоненты с плавными микровзаимодействиями.</p>
-        </article>
-        <article class="glass-card reveal magnetic delay-1">
-          <div class="glass-card__icon">🎨</div>
-          <h3>Красивый дизайн</h3>
-          <p>Тёмная эстетика, аккуратная типографика, неоновые акценты и адаптивная сетка.</p>
-        </article>
-        <article class="glass-card reveal magnetic delay-2">
-          <div class="glass-card__icon">🚀</div>
-          <h3>Запуск на GitHub Pages</h3>
-          <p>Проект работает без серверов и сборщиков — достаточно HTML, CSS и JavaScript.</p>
-        </article>
-      </div>
-    </section>
 
-    <section class="section skills" id="skills">
-      <div class="section-head reveal">
-        <span class="eyebrow">Expertise Area</span>
-        <h2>Навыки</h2>
-      </div>
       <div class="skills-grid">
-        <article class="skill-card reveal magnetic" data-percent="92">
-          <div class="skill-card__icon">🌐</div>
-          <strong><span class="counter">0</span>%</strong>
-          <p>Web Development</p>
-          <div class="meter"><span style="--value:92%"></span></div>
+        <article class="skill-card reveal tilt-card" data-percent="95">
+          <div class="skill-icon"><svg><use href="#icon-server"></use></svg></div>
+          <div>
+            <strong><span class="counter">0</span>%</strong>
+            <p>Backend Development</p>
+          </div>
+          <span class="bar"><i></i></span>
         </article>
-        <article class="skill-card reveal magnetic delay-1" data-percent="78">
-          <div class="skill-card__icon">🧩</div>
-          <strong><span class="counter">0</span>%</strong>
-          <p>UI Animation</p>
-          <div class="meter"><span style="--value:78%"></span></div>
+        <article class="skill-card reveal tilt-card" data-percent="92">
+          <div class="skill-icon"><svg><use href="#icon-linux"></use></svg></div>
+          <div>
+            <strong><span class="counter">0</span>%</strong>
+            <p>Embedded Linux</p>
+          </div>
+          <span class="bar"><i></i></span>
         </article>
-        <article class="skill-card reveal magnetic delay-2" data-percent="74">
-          <div class="skill-card__icon">📱</div>
-          <strong><span class="counter">0</span>%</strong>
-          <p>Responsive Design</p>
-          <div class="meter"><span style="--value:74%"></span></div>
+        <article class="skill-card reveal tilt-card" data-percent="90">
+          <div class="skill-icon"><svg><use href="#icon-code"></use></svg></div>
+          <div>
+            <strong><span class="counter">0</span>%</strong>
+            <p>API Development</p>
+          </div>
+          <span class="bar"><i></i></span>
         </article>
-        <article class="skill-card reveal magnetic" data-percent="86">
-          <div class="skill-card__icon">✨</div>
-          <strong><span class="counter">0</span>%</strong>
-          <p>Visual Effects</p>
-          <div class="meter"><span style="--value:86%"></span></div>
+        <article class="skill-card reveal tilt-card" data-percent="93">
+          <div class="skill-icon"><svg><use href="#icon-database"></use></svg></div>
+          <div>
+            <strong><span class="counter">0</span>%</strong>
+            <p>Database Engineering</p>
+          </div>
+          <span class="bar"><i></i></span>
         </article>
-        <article class="skill-card reveal magnetic delay-1" data-percent="70">
-          <div class="skill-card__icon">🛠</div>
-          <strong><span class="counter">0</span>%</strong>
-          <p>Frontend Tools</p>
-          <div class="meter"><span style="--value:70%"></span></div>
+        <article class="skill-card reveal tilt-card" data-percent="84">
+          <div class="skill-icon"><svg><use href="#icon-window"></use></svg></div>
+          <div>
+            <strong><span class="counter">0</span>%</strong>
+            <p>Frontend Development</p>
+          </div>
+          <span class="bar"><i></i></span>
         </article>
-        <article class="skill-card reveal magnetic delay-2" data-percent="65">
-          <div class="skill-card__icon">🔍</div>
-          <strong><span class="counter">0</span>%</strong>
-          <p>Testing / SEO</p>
-          <div class="meter"><span style="--value:65%"></span></div>
+        <article class="skill-card reveal tilt-card" data-percent="88">
+          <div class="skill-icon"><svg><use href="#icon-speed"></use></svg></div>
+          <div>
+            <strong><span class="counter">0</span>%</strong>
+            <p>Performance Optimization</p>
+          </div>
+          <span class="bar"><i></i></span>
         </article>
-      </div>
-
-      <div class="toolbox reveal">
-        <h3>Languages and Tools</h3>
-        <div class="tool-cloud" aria-label="Список технологий">
-          <span>HTML</span><span>CSS</span><span>JS</span><span>TS</span><span>React</span><span>Vue</span><span>Node</span><span>Vite</span><span>Git</span><span>GitHub</span><span>Figma</span><span>Tailwind</span><span>Bootstrap</span><span>Sass</span><span>API</span><span>SEO</span><span>GSAP</span><span>Canvas</span><span>Firebase</span><span>Next</span><span>Laravel</span><span>PHP</span><span>SQL</span><span>Mongo</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="section projects" id="projects">
-      <div class="section-head reveal">
-        <span class="eyebrow">Projects</span>
-        <h2>Избранные работы</h2>
-      </div>
-      <div class="projects-grid">
-        <a class="project-card reveal magnetic" href="#" target="_blank" rel="noreferrer">
-          <span class="project-card__tag">Portfolio</span>
-          <h3>Personal Universe</h3>
-          <p>Анимированная персональная визитка с космической атмосферой.</p>
-          <span class="project-card__arrow">↗</span>
-        </a>
-        <a class="project-card reveal magnetic delay-1" href="#" target="_blank" rel="noreferrer">
-          <span class="project-card__tag">Landing</span>
-          <h3>Neon Product Page</h3>
-          <p>Лендинг продукта с эффектом стекла, подсветкой и scroll-reveal.</p>
-          <span class="project-card__arrow">↗</span>
-        </a>
-        <a class="project-card reveal magnetic delay-2" href="#" target="_blank" rel="noreferrer">
-          <span class="project-card__tag">Dashboard</span>
-          <h3>Control Panel</h3>
-          <p>UI-панель с карточками, графиками и адаптивной навигацией.</p>
-          <span class="project-card__arrow">↗</span>
-        </a>
       </div>
     </section>
 
-    <section class="section contact" id="contact">
-      <div class="contact-card reveal magnetic">
-        <span class="eyebrow">Contact</span>
-        <h2>Есть идея? Давай сделаем красиво.</h2>
-        <p>Замени контакты на свои в <code>index.html</code>, добавь реальные проекты — и сайт готов к публикации.</p>
-        <div class="contact-card__actions">
-          <a class="btn btn--primary" href="mailto:you@example.com">Написать на email</a>
-          <a class="btn btn--ghost" href="https://github.com/Paseditor" target="_blank" rel="noreferrer">GitHub</a>
-        </div>
+    <section class="section tools" aria-labelledby="tools-title">
+      <div class="section-heading reveal">
+        <span class="heading-star" aria-hidden="true"></span>
+        <h2 id="tools-title">Languages and Tools</h2>
+      </div>
+      <div class="tool-row reveal">
+        <div class="tool-card"><svg><use href="#tool-go"></use></svg><span>Go</span></div>
+        <div class="tool-card"><svg><use href="#tool-react"></use></svg><span>React</span></div>
+        <div class="tool-card"><svg><use href="#tool-vue"></use></svg><span>Vue</span></div>
+        <div class="tool-card"><svg><use href="#tool-postgres"></use></svg><span>PostgreSQL</span></div>
+        <div class="tool-card"><svg><use href="#tool-redis"></use></svg><span>Redis</span></div>
+        <div class="tool-card"><svg><use href="#tool-mongo"></use></svg><span>MongoDB</span></div>
+        <div class="tool-card"><svg><use href="#tool-cpp"></use></svg><span>C++</span></div>
+        <div class="tool-card"><svg><use href="#tool-qt"></use></svg><span>Qt</span></div>
+        <div class="tool-card"><svg><use href="#icon-linux"></use></svg><span>Linux</span></div>
+        <div class="tool-card"><svg><use href="#tool-git"></use></svg><span>Git</span></div>
+        <div class="tool-card"><svg><use href="#tool-docker"></use></svg><span>Docker</span></div>
+      </div>
+    </section>
+
+    <section class="section projects" id="projects" aria-labelledby="projects-title">
+      <div class="section-heading reveal">
+        <span class="heading-star" aria-hidden="true"></span>
+        <h2 id="projects-title">Project Focus</h2>
+      </div>
+      <div class="project-grid">
+        <article class="project-card reveal tilt-card">
+          <span class="project-number">01</span>
+          <h3>Backend Platforms</h3>
+          <p>Clean Go services, REST/gRPC APIs, PostgreSQL schemas, Redis caching and MongoDB document storage.</p>
+          <a href="https://github.com/Paseditor" target="_blank" rel="noreferrer">GitHub <svg><use href="#icon-arrow"></use></svg></a>
+        </article>
+        <article class="project-card reveal tilt-card">
+          <span class="project-number">02</span>
+          <h3>Embedded Linux UI</h3>
+          <p>C++17 applications with Qt 5.15.2, device-oriented interfaces, system tools and performance-focused architecture.</p>
+          <a href="https://github.com/Paseditor" target="_blank" rel="noreferrer">GitHub <svg><use href="#icon-arrow"></use></svg></a>
+        </article>
+        <article class="project-card reveal tilt-card">
+          <span class="project-number">03</span>
+          <h3>Frontend Dashboards</h3>
+          <p>Readable React and Vue interfaces connected to backend systems, monitoring views and developer-friendly workflows.</p>
+          <a href="https://github.com/Paseditor" target="_blank" rel="noreferrer">GitHub <svg><use href="#icon-arrow"></use></svg></a>
+        </article>
       </div>
     </section>
   </main>
 
-  <footer class="footer">
-    <div><span class="brand__mark brand__mark--small">P</span> Paseditor</div>
-    <div class="clock" data-clock>--:--</div>
-    <div class="footer__links">
-      <a href="https://github.com/Paseditor" target="_blank" rel="noreferrer">GitHub</a>
-      <a href="mailto:you@example.com">Email</a>
+  <footer class="footer" id="contact">
+    <div class="footer-line" aria-hidden="true"><span></span></div>
+    <div class="footer-inner">
+      <a class="footer-name" href="#home">Arnee</a>
+      <a href="https://github.com/Paseditor" target="_blank" rel="noreferrer">
+        <svg><use href="#icon-github"></use></svg>
+        github.com/Paseditor
+      </a>
+      <a href="mailto:arneefreelance@gmail.com">
+        <svg><use href="#icon-mail"></use></svg>
+        arneefreelance@gmail.com
+      </a>
     </div>
   </footer>
 
-  <button class="to-top" data-to-top aria-label="Наверх">↑</button>
   <script src="script.js"></script>
 </body>
 </html>
